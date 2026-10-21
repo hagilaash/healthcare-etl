@@ -1,0 +1,176 @@
+etl project 
+
+
+Excellent! ✅ Your environment is ready for our Python + SQL + PostgreSQL ETL project.
+
+We have confirmed that Python is installed and your Ubuntu environment can connect to PostgreSQL on Windows.
+
+Stage 1: Environment Verification — Results
+Check	Result	Status
+Operating System	Ubuntu on WSL2	Ready
+Python	3.12.3	✅ Passed
+PostgreSQL host	172.27.80.1	✅ Reachable
+PostgreSQL port	5432	✅ Connected
+Project directory	~/projects	✅ Available
+
+
+Step 1: Create the ETL Project
+
+cd ~/projects
+mkdir healthcare-etl
+cd healthcare-etl
+code .
+
+Step 2: Create the Python Virtual Environment
+
+Inside the healthcare-etl directory, execute:
+
+sudo apt update
+sudo apt install python3.12-venv
+python3 -m venv .venv
+
+Activate the environment:
+
+source .venv/bin/activate
+
+
+Why do we need a virtual environment?
+It keeps this project's Python packages separate from those used by your other Python projects.
+
+Step 3: Install the Required Python Packages
+
+With .venv activated, run:
+
+python -m pip install --upgrade pip
+
+Then install the dependencies:
+
+python -m pip install pandas sqlalchemy "psycopg[binary]" python-dotenv pytest
+
+We will use these packages as follows:
+
+Package	Purpose
+Pandas	Transform and clean data
+SQLAlchemy	Database connectivity and SQL execution
+Psycopg	Connect Python to PostgreSQL
+Python-dotenv	Load configuration from environment variables
+Pytest	Test our ETL modules
+
+
+
+Verify the installations:
+
+python -m pip list
+
+You should see the installed packages in the output.
+
+Step 4: Create the Initial Project Files
+
+Execute the following commands from ~/projects/healthcare-etl:
+
+mkdir -p config
+mkdir -p data/input
+mkdir -p data/processed
+mkdir -p data/rejected
+mkdir -p sql
+mkdir -p src/extract
+mkdir -p src/transform
+mkdir -p src/validate
+mkdir -p src/load
+mkdir -p src/database
+mkdir -p src/utils
+mkdir -p tests
+mkdir -p logs
+
+Create the initial files:
+
+touch config/settings.py
+touch main.py
+touch requirements.txt
+touch .env.example
+touch .gitignore
+touch README.md
+
+We'll create the Python modules and SQL scripts when we reach their respective stages.
+
+Our initial directory structure will look like this:
+
+healthcare-etl/
+├── config/
+│   └── settings.py
+├── data/
+│   ├── input/
+│   ├── processed/
+│   └── rejected/
+├── sql/
+├── src/
+│   ├── extract/
+│   ├── transform/
+│   ├── validate/
+│   ├── load/
+│   ├── database/
+│   └── utils/
+├── tests/
+├── logs/
+├── .env.example
+├── .gitignore
+├── requirements.txt
+├── README.md
+└── main.py
+
+
+# Python virtual environment
+.venv/
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Allow the example configuration
+!.env.example
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+logs/*.log
+
+# Generated data
+data/processed/*
+data/rejected/*
+
+# Editor settings
+.vscode/
+
+
+Step 5: Create the PostgreSQL database
+
+Now open pgAdmin 
+
+Execute:
+CREATE DATABASE healthcare_etl_db;
+
+INSIDE healthcare_etl_db
+
+Within this database, we'll create four schemas.
+
+Schema -->	Responsibility
+source -->	Incoming source data
+staging -->	Intermediate ETL data
+target -->	Cleaned, validated data
+audit -->	ETL execution history and rejected records
+
+
+CREATE SCHEMA IF NOT EXISTS source;
+
+CREATE SCHEMA IF NOT EXISTS staging;
+
+CREATE SCHEMA IF NOT EXISTS target;
+
+CREATE SCHEMA IF NOT EXISTS audit;
